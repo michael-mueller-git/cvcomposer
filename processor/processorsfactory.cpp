@@ -28,6 +28,7 @@
 #include "processor/data/sublistprocessor.h"
 #include "processor/data/countlistprocessor.h"
 #include "processor/data/splitchannelsprocessor.h"
+#include "processor/data/fillprocessor.h"
 #include "processor/filter/absolutedifferenceprocessor.h"
 #include "processor/filter/addweightedprocessor.h"
 #include "processor/filter/adaptativethresholdprocessor.h"
@@ -52,6 +53,7 @@
 #include "processor/input/cameraprocessor.h"
 #include "processor/input/imagefromfileprocessor.h"
 #include "processor/input/imagesfromfolderprocessor.h"
+#include "processor/input/numbercontrollprocessor.h"
 #include "processor/math/countnonzeroprocessor.h"
 #include "processor/math/averageprocessor.h"
 #include "processor/math/operatorprocessor.h"
@@ -65,6 +67,7 @@
 #include "processor/shape/lineprocessor.h"
 #include "processor/shape/ellipseprocessor.h"
 #include "processor/shape/boundingrectprocessor.h"
+#include "processor/shape/numberpairprocessor.h"
 #include "processor/shape/houghlineprocessor.h"
 #include "processor/shape/houghlineprobaprocessor.h"
 #include "processor/shape/fitellipseprocessor.h"
@@ -79,7 +82,7 @@ QList<QPair<QString, QStringList> > ProcessorsFactory::getProcessors()
     QList<QPair<QString, QStringList> > processors;
 
     QStringList inputs;
-    inputs << "ImageFromFile" << "ImagesFromFolder" << "Camera";
+    inputs << "NumberControll" << "ImageFromFile" << "ImagesFromFolder" << "Camera";
     processors << QPair<QString, QStringList>("Inputs", inputs);
 
     QStringList geometry;
@@ -98,7 +101,7 @@ QList<QPair<QString, QStringList> > ProcessorsFactory::getProcessors()
     processors << QPair<QString, QStringList>("Edges", edges);
 
     QStringList data;
-    data << "Kernel" << "SubList" << "CountList" << "SplitChannels" << "ApplyColorMap";
+    data << "Kernel" << "SubList" << "CountList" << "SplitChannels" << "ApplyColorMap" << "Fill";
     processors << QPair<QString, QStringList>("Data", data);
 
     QStringList math;
@@ -111,7 +114,7 @@ QList<QPair<QString, QStringList> > ProcessorsFactory::getProcessors()
            << "ConvexHull" << "FitEllipse" << "FitLine"
            << "MinEnclosingTriangle"
            << "DrawText" << "DrawShape"
-           << "BoundingRect";
+           << "BoundingRect" << "NumberPair";
     processors << QPair<QString, QStringList>("Shapes", shapes);
 
     QStringList analyzers;
@@ -375,6 +378,18 @@ AbstractProcessor *ProcessorsFactory::createProcessor(const QString &rawProcesso
     else if(rawProcessorName == "FitLine")
     {
         return new FitLineProcessor();
+    }
+    else if(rawProcessorName == "NumberControll")
+    {
+        return new NumberControllProcessor();
+    }
+    else if(rawProcessorName == "NumberPair")
+    {
+        return new NumberPairProcessor();
+    }
+    else if(rawProcessorName == "Fill")
+    {
+        return new FillProcessor();
     }
     else
     {

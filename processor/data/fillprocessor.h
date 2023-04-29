@@ -1,4 +1,4 @@
-// Copyright 2016 Erwan MATHIEU <wawanbreton@gmail.com>
+// Copyright 2022 Erwan MATHIEU <wawanbreton@gmail.com>
 //
 // This file is part of CvComposer.
 //
@@ -17,10 +17,14 @@
 
 #pragma once
 
-namespace CvConstants
+#include "processor/abstractprocessor.h"
+
+class FillProcessor : public AbstractProcessor
 {
-    constexpr int defaultDoubleDecimals = 2;
-    constexpr double defaultDoubleMin = -9999;
-    constexpr double defaultDoubleMax = 9999;
-    constexpr int defaultShapeSide = 10;
-}
+    public:
+        FillProcessor();
+
+    protected:
+        virtual Properties processImpl(const Properties &inputs) override;
+};
+

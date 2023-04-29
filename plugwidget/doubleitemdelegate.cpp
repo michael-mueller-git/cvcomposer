@@ -38,6 +38,7 @@ QWidget *DoubleItemDelegate::createEditor(QWidget *parent,
     QDoubleSpinBox *editor = new QDoubleSpinBox(parent);
     editor->setFrame(false);
     editor->setProperty("decimals", CvConstants::defaultDoubleDecimals);
+    editor->setProperty("minimum", CvConstants::defaultDoubleMin);
     editor->setProperty("maximum", CvConstants::defaultDoubleMax);
     editor->setProperty("index", QVariant::fromValue(index));
     _properties.applyTo(editor);

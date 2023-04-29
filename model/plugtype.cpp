@@ -19,7 +19,7 @@
 
 #include <QDebug>
 #include <QMetaEnum>
-
+#include <QMetaType>
 
 PlugType::Pluggable PlugType::isInputPluggable(PlugType::PlugTypes inputTypes)
 {
@@ -28,9 +28,9 @@ PlugType::Pluggable PlugType::isInputPluggable(PlugType::PlugTypes inputTypes)
         switch(flagsToEnum(inputTypes))
         {
             case PlugType::Double:
-                return Free;
             case PlugType::Size:
             case PlugType::Point:
+                return Free;
             case PlugType::Enumeration:
             case PlugType::Path:
             case PlugType::KernelDefinition:
@@ -242,4 +242,17 @@ PlugType::PlugTypes PlugType::fromList(const QList<PlugType::Enum> &types)
         result |= type;
     }
     return result;
+}
+
+// Converters
+
+void PlugType::setupConverters()
+{
+    QMetaType::registerConverter<cv::Size, cv::Point>([](const cv::Size &size) {
+        return cv::Point(size);
+    });
+
+    QMetaType::registerConverter<cv::Point, cv::Size>([](const cv::Point &point) {
+        return cv::Size(point);
+    });
 }

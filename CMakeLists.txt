@@ -90,6 +90,7 @@ qt_add_executable(cvcomposer WIN32
     processor/data/kernelprocessor.cpp processor/data/kernelprocessor.h
     processor/data/splitchannelsprocessor.cpp processor/data/splitchannelsprocessor.h
     processor/data/sublistprocessor.cpp processor/data/sublistprocessor.h
+    processor/data/fillprocessor.cpp processor/data/fillprocessor.h
     processor/filter/absolutedifferenceprocessor.cpp processor/filter/absolutedifferenceprocessor.h
     processor/filter/adaptativethresholdprocessor.cpp processor/filter/adaptativethresholdprocessor.h
     processor/filter/addweightedprocessor.cpp processor/filter/addweightedprocessor.h
@@ -116,6 +117,7 @@ qt_add_executable(cvcomposer WIN32
     processor/input/cameraprocessor.cpp processor/input/cameraprocessor.h
     processor/input/imagefromfileprocessor.cpp processor/input/imagefromfileprocessor.h
     processor/input/imagesfromfolderprocessor.cpp processor/input/imagesfromfolderprocessor.h
+    processor/input/numbercontrollprocessor.cpp processor/input/numbercontrollprocessor.h
     processor/math/averageprocessor.cpp processor/math/averageprocessor.h
     processor/math/countnonzeroprocessor.cpp processor/math/countnonzeroprocessor.h
     processor/math/meanprocessor.cpp processor/math/meanprocessor.h
@@ -136,6 +138,7 @@ qt_add_executable(cvcomposer WIN32
     processor/shape/lineprocessor.cpp processor/shape/lineprocessor.h
     processor/shape/minenclosingtriangleprocessor.cpp processor/shape/minenclosingtriangleprocessor.h
     processor/shape/rectangleprocessor.cpp processor/shape/rectangleprocessor.h
+    processor/shape/numberpairprocessor.cpp processor/shape/numberpairprocessor.h
     processor/viewer/dataviewerprocessor.cpp processor/viewer/dataviewerprocessor.h
     processor/viewer/imageviewerprocessor.cpp processor/viewer/imageviewerprocessor.h
 )

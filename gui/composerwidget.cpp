@@ -28,8 +28,8 @@ ComposerWidget::ComposerWidget(QWidget *parent) :
     InteractiveGraphicsView(parent),
     _helpLabel(new QLabel(this))
 {
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setMouseTracking(true);
     setRenderHint(QPainter::Antialiasing, true);
     setOptimizationFlag(QGraphicsView::DontSavePainterState, true);

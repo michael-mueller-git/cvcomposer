@@ -1,4 +1,4 @@
-// Copyright 2016 Erwan MATHIEU <wawanbreton@gmail.com>
+// Copyright 2022 Erwan MATHIEU <wawanbreton@gmail.com>
 //
 // This file is part of CvComposer.
 //
@@ -15,12 +15,23 @@
 // You should have received a copy of the GNU General Public License
 // along with CvComposer.  If not, see <http://www.gnu.org/licenses/>.
 
-#pragma once
+#include "numbercontrollprocessor.h"
 
-namespace CvConstants
+#include "global/cvutils.h"
+
+
+NumberControllProcessor::NumberControllProcessor()
 {
-    constexpr int defaultDoubleDecimals = 2;
-    constexpr double defaultDoubleMin = -9999;
-    constexpr double defaultDoubleMax = 9999;
-    constexpr int defaultShapeSide = 10;
+    addInput("number", PlugType::Double);
+    addOutput("number", PlugType::Double);
 }
+
+Properties NumberControllProcessor::processImpl(const Properties &inputs)
+{   
+    Properties outputs;
+    
+    outputs.insert("number", QVariant::fromValue(inputs["number"].toFloat()));
+    
+    return outputs;
+}
+

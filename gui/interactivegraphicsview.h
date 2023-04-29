@@ -43,13 +43,16 @@ class InteractiveGraphicsView : public QGraphicsView
 
         virtual void mouseReleaseEvent(QMouseEvent *event) override;
 
+        virtual bool viewportEvent(QEvent *event) override;
+
     private:
-        void zoom(int scale);
+        void zoom(float scale);
 
         void updateTransform();
 
     private:
-        int _zoom;
-        int _minZoom;
-        int _maxZoom;
+        float _zoom;
+        float _touchZoomStart;
+        float _minZoom;
+        float _maxZoom;
 };

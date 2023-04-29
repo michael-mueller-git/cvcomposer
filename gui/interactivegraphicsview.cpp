@@ -29,6 +29,8 @@ InteractiveGraphicsView::InteractiveGraphicsView(QWidget *parent) :
     _minZoom(0),
     _maxZoom(10)
 {
+    viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
+
     resetZoom();
 }
 
@@ -110,7 +112,43 @@ void InteractiveGraphicsView::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
-void InteractiveGraphicsView::zoom(int scale)
+bool InteractiveGraphicsView::viewportEvent(QEvent *event)
+{
+    switch (event->type()) {
+     case QEvent::TouchBegin:
+     case QEvent::TouchUpdate:
+     case QEvent::TouchEnd:
+     {
+         QTouchEvent *touchEvent = static_cast<QTouchEvent *>(event);
+         QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
+
+         if (touchPoints.count() == 2) {
+             // determine scale factor
+             QTouchEvent::TouchPoint &touchPoint0 = touchPoints.first();
+             QTouchEvent::TouchPoint &touchPoint1 = touchPoints.last();
+             qreal currentScaleFactor =
+                     QLineF(touchPoint0.pos(), touchPoint1.pos()).length()
+                     / QLineF(touchPoint0.startPos(), touchPoint1.startPos()).length();
+
+            if (touchEvent->touchPointStates() & Qt::TouchPointPressed) {
+                _touchZoomStart = _zoom;
+                setDragMode(ScrollHandDrag);
+            }
+            else if(touchEvent->touchPointStates() & Qt::TouchPointReleased) {
+                setDragMode(QGraphicsView::NoDrag);
+            }
+                     
+             zoom(currentScaleFactor * _touchZoomStart);
+         }
+         return true;
+     }
+     default:
+         break;
+     }
+     return QGraphicsView::viewportEvent(event);
+}
+
+void InteractiveGraphicsView::zoom(float scale)
 {
     scale = qMin(qMax(scale, _minZoom), _maxZoom);
 

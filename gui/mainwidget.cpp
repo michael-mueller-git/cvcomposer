@@ -33,6 +33,7 @@
 #include "gui/plugtypeshelpdialog.h"
 #include "gui/processorsitemmodel.h"
 #include "gui/processorsmodelfilter.h"
+#include "model/plugtype.h"
 
 
 MainWidget::MainWidget(QWidget *parent) :
@@ -41,6 +42,8 @@ MainWidget::MainWidget(QWidget *parent) :
     _currentFilePath(),
     _commandsStack(new QUndoStack(this))
 {
+    PlugType::setupConverters();
+
     _ui->setupUi(this);
 
     _ui->treeWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);

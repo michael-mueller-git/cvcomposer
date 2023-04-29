@@ -1,4 +1,4 @@
-// Copyright 2016 Erwan MATHIEU <wawanbreton@gmail.com>
+// Copyright 2022 Erwan MATHIEU <wawanbreton@gmail.com>
 //
 // This file is part of CvComposer.
 //
@@ -15,12 +15,28 @@
 // You should have received a copy of the GNU General Public License
 // along with CvComposer.  If not, see <http://www.gnu.org/licenses/>.
 
-#pragma once
+#include "fillprocessor.h"
 
-namespace CvConstants
+#include "global/cvutils.h"
+
+
+FillProcessor::FillProcessor()
 {
-    constexpr int defaultDoubleDecimals = 2;
-    constexpr double defaultDoubleMin = -9999;
-    constexpr double defaultDoubleMax = 9999;
-    constexpr int defaultShapeSide = 10;
+    addInput("size", PlugType::Size, QVariant::fromValue(cv::Size(10, 10)));
+    addInput("color", PlugType::Color, QVariant::fromValue(cv::Scalar(255, 255, 255, 255)));
+
+    addOutput("image", PlugType::Image);
 }
+
+Properties FillProcessor::processImpl(const Properties &inputs)
+{
+    Properties outputs;
+
+    cv::Mat mat = cv::Mat(inputs["size"].value<cv::Size>(), CV_8UC3);
+    mat.setTo(inputs["color"].value<cv::Scalar>());
+
+    outputs.insert("image", QVariant::fromValue(mat));
+
+    return outputs;
+}
+

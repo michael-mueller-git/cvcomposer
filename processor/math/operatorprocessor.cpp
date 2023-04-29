@@ -26,8 +26,8 @@ OperatorProcessor::OperatorProcessor()
 {
     // Inputs
     // TODO : use generic types instead of images so that we can pass numeric values
-    addInput("input image 1", PlugType::Image);
-    addInput("input image 2", PlugType::Image);
+    addInput("input 1", PlugType::Image | PlugType::Double);
+    addInput("input 2", PlugType::Image | PlugType::Double);
 
     QList<QPair<QString, QVariant> > operators;
     operators << QPair<QString, QVariant>("Add", 1);
@@ -38,7 +38,7 @@ OperatorProcessor::OperatorProcessor()
     addEnumerationInput("operator", operators, 1);
 
     // Outputs
-    addOutput("image", PlugType::Image);
+    addOutput("output", PlugType::Image | PlugType::Double);
 
     // Help
     addHelpMessage("absdiff",
@@ -48,36 +48,73 @@ OperatorProcessor::OperatorProcessor()
 
 Properties OperatorProcessor::processImpl(const Properties &inputs)
 {
-    cv::Mat inputImage1 = inputs["input image 1"].value<cv::Mat>();
-    cv::Mat inputImage2 = inputs["input image 2"].value<cv::Mat>();
-    int operatorId = inputs["operator"].toInt();
-    cv::Mat outputImage;
-
-    // TODO use the functions instead of operators, and allow proving masks
-    switch(operatorId)
-    {
-        case 1:
-            outputImage = inputImage1 + inputImage2;
-            break;
-        case 2:
-            outputImage = inputImage1 - inputImage2;
-            break;
-        case 3:
-            cv::absdiff(inputImage1, inputImage2, outputImage);
-            break;
-        case 4:
-            outputImage = inputImage1 * inputImage2;
-            break;
-        case 5:
-            outputImage = inputImage1 / inputImage2;
-            break;
-        default:
-            qCritical() << "Unknown operator" << operatorId;
-            break;
-    }
-
+    const QVariant &qInput1 = inputs["input 1"];
     Properties outputs;
-    outputs.insert("image", QVariant::fromValue(outputImage));
+
+    if(qInput1.userType() == qMetaTypeId<cv::Mat>())
+    {
+        cv::Mat inputImage1 = inputs["input 1"].value<cv::Mat>();
+        cv::Mat inputImage2 = inputs["input 2"].value<cv::Mat>();
+        int operatorId = inputs["operator"].toInt();
+        cv::Mat outputImage;
+
+        // TODO use the functions instead of operators, and allow proving masks
+        switch(operatorId)
+        {
+            case 1:
+                outputImage = inputImage1 + inputImage2;
+                break;
+            case 2:
+                outputImage = inputImage1 - inputImage2;
+                break;
+            case 3:
+                cv::absdiff(inputImage1, inputImage2, outputImage);
+                break;
+            case 4:
+                outputImage = inputImage1 * inputImage2;
+                break;
+            case 5:
+                outputImage = inputImage1 / inputImage2;
+                break;
+            default:
+                qCritical() << "Unknown operator" << operatorId;
+                break;
+        }
+
+        outputs.insert("output", QVariant::fromValue(outputImage));
+    }
+    else
+    {
+        double input1 = inputs["input 1"].toFloat();
+        double input2 = inputs["input 2"].toFloat();
+        int operatorId = inputs["operator"].toInt();
+        double output = 0;
+
+        // TODO use the functions instead of operators, and allow proving masks
+        switch(operatorId)
+        {
+            case 1:
+                output = input1 + input2;
+                break;
+            case 2:
+                output = input1 - input2;
+                break;
+            case 3:
+                output = abs(input1 - input2);
+                break;
+            case 4:
+                output = input1 * input2;
+                break;
+            case 5:
+                output = input1 / input2;
+                break;
+            default:
+                qCritical() << "Unknown operator" << operatorId;
+                break;
+        }
+
+        outputs.insert("output", QVariant::fromValue(output));
+    }
     return outputs;
 }
 

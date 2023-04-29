@@ -18,8 +18,8 @@
 #pragma once
 
 #include <QObject>
-
 #include <QColor>
+#include "global/cvutils.h"
 
 class PlugType : public QObject
 {
@@ -87,6 +87,8 @@ class PlugType : public QObject
         static bool isLabelVisible(PlugTypes types);
 
         static bool isInputSavable(PlugTypes inputTypes);
+
+        static void setupConverters();
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(PlugType::PlugTypes)
