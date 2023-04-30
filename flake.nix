@@ -30,7 +30,7 @@
           buildPhase = "cmake . && make -j $NIX_BUILD_CORES";
           installPhase = ''
             mkdir -p $out/bin
-            mv $TMP/cvcomposer $out/bin
+            mv cvcomposer $out/bin
           '';
         }
       );
