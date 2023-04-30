@@ -26,7 +26,7 @@
             qt6.full
             opencv
           ];
-          buildPhase = "make -j $NIX_BUILD_CORES";
+          buildPhase = "cmake . && make -j $NIX_BUILD_CORES";
           installPhase = ''
             mkdir -p $out/bin
             mv $TMP/cvcomposer $out/bin
@@ -41,8 +41,8 @@
       devShell = pkgs.mkShell {
         buildInputs = [
           cvcomposer
-          qt6.full
-          opencv
+          pkgs.qt6.full
+          pkgs.opencv
         ];
       };
     }
