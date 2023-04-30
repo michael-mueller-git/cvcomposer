@@ -18,6 +18,7 @@
           src = fetchgit {
             url = "https://github.com/michael-mueller-git/cvcomposer.git";
             rev = "774388876aedc4b00afaebae6a8477710599d7d5";
+            sha256 = "sha256-067V0XolutU9UfSXaWd9jbu3WgqUPUBDMtQWWlOVxnM="
             fetchSubmodules = true;
           };
           nativeBuildInputs = [
