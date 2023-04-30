@@ -1,7 +1,7 @@
 name: build-win64-setup
 
 on:
-  [push, pull_request]
+  [workflow_dispatch, push, pull_request]
 
 env:
   BUILD_TYPE: Release
@@ -17,7 +17,7 @@ jobs:
       uses: jurplel/install-qt-action@v3
       with:
         version: '6.3.1'
-        
+
     - name: Install opencv
       uses: wawanbreton/opencv-action@main
       with:
